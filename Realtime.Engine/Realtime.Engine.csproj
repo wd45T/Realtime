@@ -1,5 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\net5.0\MetaGame.API.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591;8604;1006</NoWarn>
+	</PropertyGroup>
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -8,6 +11,10 @@
 
   <ItemGroup>
     <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.6.70" />
   </ItemGroup>
 
 </Project>

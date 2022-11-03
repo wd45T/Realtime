@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Realtime.Chat.Service.Interfaces;
+using System.Text;
 
 namespace Realtime.Chat.API.Controllers
 {
-    public class ChatController : ControllerBase
+    public class ChatController : BaseController
     {
         private readonly IChatService _chatService;
 
@@ -16,17 +17,27 @@ namespace Realtime.Chat.API.Controllers
         [HttpGet("ReceiveMessages")]
         public async Task<IActionResult> ReceiveMessagesAsync()
         {
-            await Task.CompletedTask;
+            //var clientSessionId = GetClientSessionId();
 
-            return Ok("Hello, World!");
+            var clientSessionId = Guid.Parse("b4b352cf-309d-4505-9e57-a6306cb8615e");
+
+            if (clientSessionId == default) return BadRequest("Not found client session ID.");
+
+            var bytes = await _chatService.ReceiveMessagesAsync(clientSessionId);
+
+            var messages = bytes.Select(x => Encoding.ASCII.GetString(x));
+
+            return Ok(messages);
         }
 
         [HttpPost("SendMessage")]
-        public async Task<IActionResult> SendMessageAsync([FromBody] byte[] request)
+        public async Task<IActionResult> SendMessageAsync([FromBody] string message)
         {
-            await Task.CompletedTask;
+            var chatId = Guid.NewGuid();
 
-            return Ok("Message sent, maybe");
+            await _chatService.SendMessageAsync(chatId, Encoding.ASCII.GetBytes(message));
+
+            return Ok();
         }
     }
 }

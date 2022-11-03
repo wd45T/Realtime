@@ -16,7 +16,7 @@
         /// Send the event to the listed clients.
         /// </summary>
         /// <param name="event">Event for the clients</param>
-        /// <param name="clientSessionIds">Clients session IDs</param>
-        Task PushEventsAsync(byte[] @event, IEnumerable<Guid> clientSessionIds);
+        /// <param name="clientsSessionIds">Clients session IDs</param>
+        Task PushEventsAsync(byte[] @event, IEnumerable<Guid> clientsSessionIds);
     }
 }
