@@ -1,5 +1,6 @@
 using Realtime.Chat.Service.Implementations;
 using Realtime.Chat.Service.Interfaces;
+using Realtime.Engine.Repositories.Implementations;
 using Realtime.Engine.Repositories.Interfaces;
 using Realtime.Engine.Services;
 using Realtime.Engine.Services.Implementations;
@@ -15,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IRealTimeEventService, LongPollingEventService>();
-builder.Services.AddScoped<ILongPollingRepository, LongPollingtByRedisRepository>();
+builder.Services.AddScoped<ILongPollingRepository, LongPollingByRedisRepository>();
 
 var redisUrl = builder.Configuration.GetValue<string>("RedisUrl");
 
