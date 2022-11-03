@@ -7,6 +7,14 @@ namespace Realtime.Chat.Service.Implementations
     {
         private readonly IRealTimeEventService _realTimeEventService;
 
+        // TODO implement a bunch of sessions with chats.
+        private static readonly Dictionary<Guid, List<Guid>> _chatSessions;
+
+        static ChatService()
+        {
+            _chatSessions = new Dictionary<Guid, List<Guid>>();
+        }
+
         public ChatService(
             IRealTimeEventService realTimeEventService)
         {
@@ -22,10 +30,27 @@ namespace Realtime.Chat.Service.Implementations
 
         public async Task SendMessageAsync(Guid chatId, byte[] message)
         {
-            // Достать все сессии chatId.
-            var clientsSessionIds = new List<Guid> { Guid.Parse("b4b352cf-309d-4505-9e57-a6306cb8615e") };
+            _chatSessions.TryGetValue(chatId, out var clientsSessionIds);
+
+            if (clientsSessionIds == default) return;
 
             await _realTimeEventService.PushEventsAsync(message, clientsSessionIds);
+        }
+
+        public async Task SubscribeToChatAsync(Guid clientSessionId, Guid chatId)
+        {
+            await Task.CompletedTask;
+
+            if (_chatSessions.TryGetValue(chatId, out var clientsSessionIds))
+            {
+                clientsSessionIds.Add(clientSessionId);
+            }
+            else
+            {
+                clientsSessionIds = new List<Guid> { clientSessionId };
+
+                _chatSessions.TryAdd(chatId, clientsSessionIds);
+            }
         }
     }
 }

@@ -61,7 +61,7 @@ namespace Realtime.Engine.Repositories.Implementations
 
         public async Task PushEventsAsync(byte[] @event, IEnumerable<Guid> clientSessionIds)
         {
-            if (@event == default) return;
+            if (@event == default || clientSessionIds == default || !clientSessionIds.Any()) return;
 
             var tasks = clientSessionIds.Select(async sessionId =>
             {
