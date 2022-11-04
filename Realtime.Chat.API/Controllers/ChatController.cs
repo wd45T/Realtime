@@ -2,7 +2,6 @@
 using Realtime.Chat.Common.Dto;
 using Realtime.Chat.Common.TransportLayer.Commands.Request;
 using Realtime.Chat.Service.Interfaces;
-using System.Text;
 
 namespace Realtime.Chat.API.Controllers
 {

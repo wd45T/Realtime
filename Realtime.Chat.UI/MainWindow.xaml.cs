@@ -18,13 +18,16 @@ namespace Realtime.Chat.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly Guid _clientSessionId = Guid.NewGuid();
         private const string _serverUrl = "http://localhost:5289";
         private readonly Guid _chatId = Guid.Parse("dcada075-07a7-4372-851c-8591aaa440f2");
 
-        public MainWindow()
+        public MainWindow(
+            IHttpClientFactory httpClientFactory)
         {
             InitializeComponent();
+            _httpClientFactory = httpClientFactory;
         }
 
         private async void SendMessageTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -58,26 +61,25 @@ namespace Realtime.Chat.UI
 
         private async Task ReceiveMessagesAsync()
         {
-            using (var httpClient = new HttpClient())
+            var httpClient = _httpClientFactory.CreateClient();
+
+            httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
+
+            while (true)
             {
-                httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
+                var receiveMessagesResponse = await httpClient.GetAsync($"{_serverUrl}/ReceiveMessages");
 
-                while (true)
+                var messages = await GetResultAsync<List<ChatMessageDto>>(receiveMessagesResponse);
+
+                foreach (var message in messages)
                 {
-                    var receiveMessagesResponse = await httpClient.GetAsync($"{_serverUrl}/ReceiveMessages");
+                    MessageWindowListBox.Items.Add($"{message.SendingTime:T} {message.SenderSessionId.ToString()[..7]}: {message.Message}");
 
-                    var messages = await GetResultAsync<List<ChatMessageDto>>(receiveMessagesResponse);
-
-                    foreach (var message in messages)
+                    if (VisualTreeHelper.GetChild(MessageWindowListBox, 0) is Decorator border)
                     {
-                        MessageWindowListBox.Items.Add($"{message.SendingTime:T} {message.SenderSessionId.ToString()[..7]}: {message.Message}");
-
-                        if (VisualTreeHelper.GetChild(MessageWindowListBox, 0) is Decorator border)
+                        if (border.Child is ScrollViewer scrollViewer)
                         {
-                            if (border.Child is ScrollViewer scrollViewer)
-                            {
-                                scrollViewer.ScrollToVerticalOffset(scrollViewer.ScrollableHeight);
-                            }
+                            scrollViewer.ScrollToVerticalOffset(scrollViewer.ScrollableHeight);
                         }
                     }
                 }
@@ -86,17 +88,17 @@ namespace Realtime.Chat.UI
 
         private async Task SubscribeToChatAsync()
         {
-            using (var httpClient = new HttpClient())
+            var httpClient = _httpClientFactory.CreateClient();
+
+            httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
+
+            var subscribeToChatRequest = new SubscribeToChatRequest
             {
-                httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
+                ChatId = _chatId
+            };
 
-                var subscribeToChatRequest = new SubscribeToChatRequest
-                {
-                    ChatId = _chatId
-                };
+            var subscribeToChatResponse = await httpClient.PostAsync($"{_serverUrl}/SubscribeToChat", GetStringContent(subscribeToChatRequest));
 
-                var subscribeToChatResponse = await httpClient.PostAsync($"{_serverUrl}/SubscribeToChat", GetStringContent(subscribeToChatRequest));
-            }
         }
 
         private static StringContent GetStringContent(object model)
