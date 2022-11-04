@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Realtime.Chat.Common.Dto;
 using Realtime.Chat.Common.TransportLayer;
 using Realtime.Chat.Common.TransportLayer.Commands.Request;
 using System;
@@ -40,6 +41,8 @@ namespace Realtime.Chat.UI
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
+
                 await httpClient.PostAsync($"{_serverUrl}/SendMessage", GetStringContent(sendMessageRequest));
             }
 
@@ -63,11 +66,11 @@ namespace Realtime.Chat.UI
                 {
                     var receiveMessagesResponse = await httpClient.GetAsync($"{_serverUrl}/ReceiveMessages");
 
-                    var messages = await GetResultAsync<List<string>>(receiveMessagesResponse);
+                    var messages = await GetResultAsync<List<ChatMessageDto>>(receiveMessagesResponse);
 
                     foreach (var message in messages)
                     {
-                        MessageWindowListBox.Items.Add(message);
+                        MessageWindowListBox.Items.Add($"{message.SendingTime:T} {message.SenderSessionId.ToString()[..7]}: {message.Message}");
 
                         if (VisualTreeHelper.GetChild(MessageWindowListBox, 0) is Decorator border)
                         {

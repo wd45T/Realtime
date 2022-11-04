@@ -1,10 +1,12 @@
-﻿namespace Realtime.Chat.Service.Interfaces
+﻿using Realtime.Chat.Common.Dto;
+
+namespace Realtime.Chat.Service.Interfaces
 {
     public interface IChatService
     {
-        Task<IEnumerable<byte[]>> ReceiveMessagesAsync(Guid clientSessionId);
+        Task<IEnumerable<ChatMessageDto>> ReceiveMessagesAsync(Guid clientSessionId);
 
-        Task SendMessageAsync(Guid chatId, byte[] message);
+        Task SendMessageAsync(ChatMessageDto chatMessage);
 
         Task SubscribeToChatAsync(Guid clientSessionId, Guid chatId);
     }

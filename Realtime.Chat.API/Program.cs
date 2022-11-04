@@ -1,3 +1,4 @@
+using Realtime.Chat.Common.TransportLayer.Utilities;
 using Realtime.Chat.Service.Implementations;
 using Realtime.Chat.Service.Interfaces;
 using Realtime.Engine.Repositories.Implementations;
@@ -17,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IRealTimeEventService, LongPollingEventService>();
 builder.Services.AddScoped<ILongPollingRepository, LongPollingByRedisRepository>();
+builder.Services.AddScoped<IDataConverter, MsgPackDataConverter>();
 
 var redisUrl = builder.Configuration.GetValue<string>("RedisUrl");
 

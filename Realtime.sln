@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.API", "Realti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Engine", "Realtime.Engine\Realtime.Engine.csproj", "{03686C45-A060-4862-932B-5C45E27B5839}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Client", "Realtime.Chat.Client\Realtime.Chat.Client.csproj", "{3B997F21-BD7B-4C7F-825B-FBF6964FA772}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Service", "Realtime.Chat.Service\Realtime.Chat.Service.csproj", "{0679E49D-1AC0-4B9D-948B-6082E7051D83}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Repository", "Realtime.Chat.Repository\Realtime.Chat.Repository.csproj", "{0F4822C3-BAFB-4ECC-AE91-89F976C629DF}"
@@ -31,10 +29,6 @@ Global
 		{03686C45-A060-4862-932B-5C45E27B5839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03686C45-A060-4862-932B-5C45E27B5839}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03686C45-A060-4862-932B-5C45E27B5839}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B997F21-BD7B-4C7F-825B-FBF6964FA772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B997F21-BD7B-4C7F-825B-FBF6964FA772}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B997F21-BD7B-4C7F-825B-FBF6964FA772}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B997F21-BD7B-4C7F-825B-FBF6964FA772}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0679E49D-1AC0-4B9D-948B-6082E7051D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0679E49D-1AC0-4B9D-948B-6082E7051D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0679E49D-1AC0-4B9D-948B-6082E7051D83}.Release|Any CPU.ActiveCfg = Release|Any CPU

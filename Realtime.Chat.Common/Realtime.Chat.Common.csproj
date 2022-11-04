@@ -10,4 +10,9 @@
     <Folder Include="TransportLayer\Commands\Response\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MessagePack" Version="2.4.35" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
 </Project>
