@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Client", "Rea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Service", "Realtime.Chat.Service\Realtime.Chat.Service.csproj", "{0679E49D-1AC0-4B9D-948B-6082E7051D83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Chat.Repository", "Realtime.Chat.Repository\Realtime.Chat.Repository.csproj", "{0F4822C3-BAFB-4ECC-AE91-89F976C629DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Repository", "Realtime.Chat.Repository\Realtime.Chat.Repository.csproj", "{0F4822C3-BAFB-4ECC-AE91-89F976C629DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Chat.Common", "Realtime.Chat.Common\Realtime.Chat.Common.csproj", "{557E90A6-CF46-4A2D-A583-A70F7EB52E50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtime.Chat.Common", "Realtime.Chat.Common\Realtime.Chat.Common.csproj", "{557E90A6-CF46-4A2D-A583-A70F7EB52E50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Chat.UI", "Realtime.Chat.UI\Realtime.Chat.UI.csproj", "{5CE34ECF-8363-4F7C-A6FF-90425B6A1F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{557E90A6-CF46-4A2D-A583-A70F7EB52E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{557E90A6-CF46-4A2D-A583-A70F7EB52E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{557E90A6-CF46-4A2D-A583-A70F7EB52E50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE34ECF-8363-4F7C-A6FF-90425B6A1F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE34ECF-8363-4F7C-A6FF-90425B6A1F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE34ECF-8363-4F7C-A6FF-90425B6A1F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE34ECF-8363-4F7C-A6FF-90425B6A1F1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

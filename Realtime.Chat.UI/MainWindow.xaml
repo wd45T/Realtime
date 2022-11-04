@@ -1,0 +1,13 @@
+﻿<Window x:Class="Realtime.Chat.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Realtime.Chat.UI"
+        mc:Ignorable="d"
+        Title="Realtime.Chat.UI" Height="465" Width="797" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Margin="10,0,10,0">
+        <ListBox x:Name="MessageWindowListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,0,0,128"/>
+        <TextBox x:Name="SendMessageTextBox" HorizontalAlignment="Center" Margin="0,328,0,0" TextWrapping="Wrap" Text="Message" VerticalAlignment="Top" Width="760" KeyDown="SendMessageTextBox_KeyDown"/>
+    </Grid>
+</Window>
