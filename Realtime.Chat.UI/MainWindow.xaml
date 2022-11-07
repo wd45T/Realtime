@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Realtime.Chat.UI"
         mc:Ignorable="d"
-        Title="Realtime.Chat.UI" Height="465" Width="797" ResizeMode="NoResize" Loaded="Window_Loaded">
-    <Grid Margin="10,0,10,0">
+        Title="Realtime.Chat.UI" Height="484" Width="797" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Margin="10,0,10,-6">
         <ListBox x:Name="MessageWindowListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,0,0,128"/>
-        <TextBox x:Name="SendMessageTextBox" HorizontalAlignment="Center" Margin="0,328,0,0" TextWrapping="Wrap" Text="Message" VerticalAlignment="Top" Width="760" KeyDown="SendMessageTextBox_KeyDown"/>
+        <TextBox x:Name="SendMessageTextBox" HorizontalAlignment="Left" Margin="0,352,0,0" TextWrapping="Wrap" Text="Message" VerticalAlignment="Top" Width="760" KeyDown="SendMessageTextBox_KeyDown"/>
+        <Label x:Name="ConnectionInfoLabel" Content="Connecting to server ..." HorizontalAlignment="Left" Margin="-2,422,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ServerUrlLabel" Content="ServerUrl" HorizontalAlignment="Left" Margin="-2,396,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ClientSessionLabel" Content="ClientSessionId" HorizontalAlignment="Left" Margin="-2,370,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

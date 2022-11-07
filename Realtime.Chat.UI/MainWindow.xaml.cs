@@ -42,18 +42,28 @@ namespace Realtime.Chat.UI
                 Message = SendMessageTextBox.Text
             };
 
-            using (var httpClient = new HttpClient())
+            var httpClient = _httpClientFactory.CreateClient();
+
+            httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
+
+            try
             {
-                httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
-
                 await httpClient.PostAsync($"{_serverUrl}/SendMessage", GetStringContent(sendMessageRequest));
-            }
 
-            SendMessageTextBox.Clear();
+                SendMessageTextBox.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageWindowListBox.Items.Add($"Error sending message: {ex.Message}");
+            }
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ClientSessionLabel.Content = $"Client session id: {_clientSessionId}";
+
+            ServerUrlLabel.Content = $"Server url: {_serverUrl}";
+
             await SubscribeToChatAsync();
 
             _ = ReceiveMessagesAsync();
@@ -67,21 +77,28 @@ namespace Realtime.Chat.UI
 
             while (true)
             {
-                var receiveMessagesResponse = await httpClient.GetAsync($"{_serverUrl}/ReceiveMessages");
-
-                var messages = await GetResultAsync<List<ChatMessageDto>>(receiveMessagesResponse);
-
-                foreach (var message in messages)
+                try
                 {
-                    MessageWindowListBox.Items.Add($"{message.SendingTime:T} {message.SenderSessionId.ToString()[..7]}: {message.Message}");
+                    var receiveMessagesResponse = await httpClient.GetAsync($"{_serverUrl}/ReceiveMessages");
 
-                    if (VisualTreeHelper.GetChild(MessageWindowListBox, 0) is Decorator border)
+                    var messages = await GetResultAsync<List<ChatMessageDto>>(receiveMessagesResponse);
+
+                    foreach (var message in messages)
                     {
-                        if (border.Child is ScrollViewer scrollViewer)
+                        MessageWindowListBox.Items.Add($"{message.SendingTime:T} {message.SenderSessionId.ToString()[..7]}: {message.Message}");
+
+                        if (VisualTreeHelper.GetChild(MessageWindowListBox, 0) is Decorator border)
                         {
-                            scrollViewer.ScrollToVerticalOffset(scrollViewer.ScrollableHeight);
+                            if (border.Child is ScrollViewer scrollViewer)
+                            {
+                                scrollViewer.ScrollToVerticalOffset(scrollViewer.ScrollableHeight);
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageWindowListBox.Items.Add($"Error receiving message: {ex.Message}");
                 }
             }
         }
@@ -97,8 +114,18 @@ namespace Realtime.Chat.UI
                 ChatId = _chatId
             };
 
-            var subscribeToChatResponse = await httpClient.PostAsync($"{_serverUrl}/SubscribeToChat", GetStringContent(subscribeToChatRequest));
+            try
+            {
+                var subscribeToChatResponse = await httpClient.PostAsync($"{_serverUrl}/SubscribeToChat", GetStringContent(subscribeToChatRequest));
 
+                ConnectionInfoLabel.Content = subscribeToChatResponse.IsSuccessStatusCode
+                    ? $"Successfully joined in. Chat ID: {_chatId}"
+                    : $"Failed to join in chat. Chat ID: {_chatId}";
+            }
+            catch (Exception ex)
+            {
+                ConnectionInfoLabel.Content = $"Server error: {ex.Message}";
+            }
         }
 
         private static StringContent GetStringContent(object model)
