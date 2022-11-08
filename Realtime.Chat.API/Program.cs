@@ -22,7 +22,14 @@ builder.Services.AddScoped<IDataConverter, MsgPackDataConverter>();
 
 var redisUrl = builder.Configuration.GetValue<string>("RedisUrl");
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisUrl));
+try
+{
+    builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisUrl));
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
 
 var app = builder.Build();
 
