@@ -22,6 +22,8 @@ builder.Services.AddScoped<IDataConverter, MsgPackDataConverter>();
 
 var redisUrl = builder.Configuration.GetValue<string>("RedisUrl");
 
+Console.WriteLine($"RedisUrl: {redisUrl}. Environment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
+
 try
 {
     builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisUrl));

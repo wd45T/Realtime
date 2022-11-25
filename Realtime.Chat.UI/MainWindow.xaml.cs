@@ -20,7 +20,7 @@ namespace Realtime.Chat.UI
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Guid _clientSessionId = Guid.NewGuid();
-        private const string _serverUrl = "http://localhost:5289";
+        private const string _serverUrl = "http://68.183.64.45";
         private readonly Guid _chatId = Guid.Parse("dcada075-07a7-4372-851c-8591aaa440f2");
 
         public MainWindow(
