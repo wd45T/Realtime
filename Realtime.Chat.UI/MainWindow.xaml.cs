@@ -18,6 +18,7 @@ namespace Realtime.Chat.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _isJoin;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Guid _clientSessionId = Guid.NewGuid();
         private const string _serverUrl = "http://68.183.64.45";
@@ -28,6 +29,7 @@ namespace Realtime.Chat.UI
         {
             InitializeComponent();
             _httpClientFactory = httpClientFactory;
+            _isJoin = false;
         }
 
         private async void SendMessageTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -75,7 +77,7 @@ namespace Realtime.Chat.UI
 
             httpClient.DefaultRequestHeaders.Add(Headers.ClientSessionId, _clientSessionId.ToString());
 
-            while (true)
+            while (_isJoin)
             {
                 try
                 {
@@ -118,9 +120,16 @@ namespace Realtime.Chat.UI
             {
                 var subscribeToChatResponse = await httpClient.PostAsync($"{_serverUrl}/SubscribeToChat", GetStringContent(subscribeToChatRequest));
 
-                ConnectionInfoLabel.Content = subscribeToChatResponse.IsSuccessStatusCode
-                    ? $"Successfully joined in. Chat ID: {_chatId}"
-                    : $"Failed to join in chat. Chat ID: {_chatId}";
+                if (subscribeToChatResponse.IsSuccessStatusCode)
+                {
+                    _isJoin = true;
+                    ConnectionInfoLabel.Content = $"Successfully joined in. Chat ID: {_chatId}";
+                }
+                else
+                {
+                    _isJoin = false;
+                    ConnectionInfoLabel.Content = $"Failed to join in chat. Chat ID: {_chatId}. {subscribeToChatResponse.ReasonPhrase}";
+                }
             }
             catch (Exception ex)
             {
